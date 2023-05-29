@@ -17,3 +17,4 @@ mainly: several containers can run on a shared kernel; containers provide better
 https://hub.docker.com/r/mathworks/matlab
 https://www.mathworks.com/help/matlab/matlab-engine-for-python.html
 https://stackoverflow.com/questions/59681129/setting-specific-python-version-in-docker-file-with-specfic-non-python-base-imag
+https://circleci.com/blog/docker-image-vs-container/#c-consent-modal
