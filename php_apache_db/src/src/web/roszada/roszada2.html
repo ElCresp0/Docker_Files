@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>Chesslav</title>
+        <link href="../chesslav.css" type="text/css" rel="stylesheet" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <img src="../obrazy/logo.jpg" style="width:100%;" alt="logo chesslav" title="chesslav" />
+            <a href="../index.php">Strona główna</a>
+            <h1>DŁUGA ROSZADA</h1>
+        </header>
+        <div id="content">
+            <script>
+                function dlugaroszada(obj) {
+                    obj.src = "../obrazy/dom/roszada2.1.png";
+                }
+                function pozycjapoczatkowa(obj) {
+                    obj.src = "../obrazy/dom/roszada2.png";                
+                }
+                function warning() {
+                    var warn = document.createElement("P");
+                    warn.innerText = "Kiedy nie można wykonać roszady: "
+                    document.body.appendChild(warn);
+                    var lista = document.createElement("OL");
+                    lista.innerHTML = "<li>gdy król jest szachowany</li><li>gdy pole, przez ktore przeszedł by król jest atakowane</li><li>gdy wcześniej wykonano ruch królem albo wieżą, która uczestniczy w roszadzie</li>";
+                    document.body.appendChild(lista);
+                }
+            </script>
+            <img src="../obrazy/dom/roszada2.png" style="width:80%; margin:10%" alt="instrukcja wykonywania długiej roszady" title="długa roszada" onmouseover="dlugaroszada(this)" onmouseout="pozycjapoczatkowa(this)">
+            <div style="text-align: center;">
+                <button style="height: 3em; font-size: 1.5em; background-color: #000046; color: rgb(161, 250, 245);" onclick="warning()">Roszada: warunki</button>
+                <p></p>
+                <script>document.write("uwaga: kolejne użycia przycisku spowodują powielenie tej samej treści!")</script>
+            </div>
+        </div>
+    </body>
+</html>

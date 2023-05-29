@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <title>roszada</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+            body {
+                background-color: #000046;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+            h1, h2 {
+                text-align: center;
+                color: rgb(180, 255, 255);
+            }
+            .kolor {
+                color: violet;
+            }
+            a:link{
+                color: white;
+            }
+            a:visited {
+                color: rgb(161, 250, 245);
+            }
+            a:hover{
+                color: rgb(109, 0, 5);
+            }
+            .animation {
+                width: 60%;
+                margin: 20%;
+                background-color: rgb(70, 24, 70);
+                text-align: center;
+            }
+            .figura {
+                width: 48%;
+                padding: 1%;
+                float: left;
+            }
+            @keyframes couple1 {
+                from{
+                    float: right;
+                }
+                to{
+                    float: left;
+                }
+            }
+            .couple1 {
+                width: 50%;
+                float: left;
+                animation: couple1;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+            }
+            .couple2 {
+                width: 50%;
+                float: left;
+                animation: couple1;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+            }
+            p {font-size: 1em;}
+        </style>
+        <script>
+            $(document).ready(function(){
+                $("#dom").html("<p>Animacja css:</p>");
+            });
+            $(document).ready(function(){
+                $("p").attr({"class" : "kolor"}).animate({fontSize: '3em'},5000);
+            });
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>Krótka roszada</h1>
+            <nav><h2><a href="../index.php">strona główna</a></h2></nav>
+        </header>
+        <div class="animation">
+            <div id="dom"></div>
+            <div class="couple1">
+                <div class="figura">
+                    <img src="../obrazy/animacja/król.jpg" style="width:100%;" alt="król" title="król">
+                </div>
+                <div class="figura">
+                    <img src="../obrazy/animacja/pole1.jpg" style="width:100%;" alt="pole" title="pole">
+                </div>
+            </div>
+            <div class="couple2">
+                <div class="figura">
+                    <img src="../obrazy/animacja/pole1.jpg" style="width:100%;" alt="pole" title="pole">
+                </div>
+                <div class="figura">
+                    <img src="../obrazy/animacja/wieża.jpg" style="width:100%;" alt="wieża" title="wieża">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
