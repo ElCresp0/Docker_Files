@@ -24,10 +24,7 @@ COPY license.lic license.lic
 # pip install -r requirements.txt is a good practice, you can set up virtual environments
 # in the container as well
 # RUN python3.9 -m pip install -r requirements.txt
-# RUN python3.9 -m pip install matlabengineforpython
 # 
-# RUN cd "/usr/local/bin/matlab/extern/engines/python"
-# # /usr/local/bin/matlab
 # RUN python3.9 -m pip install matplotlib && \
 #     python3.9 -m pip install numpy && \
 #     python3.9 -m pip install pandas
@@ -42,15 +39,6 @@ RUN cd /opt/matlab/R2023a/extern/engines/python && \
 #     python3.9 -m pip install .
 # RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/matlab/R2023a/bin/glnxa64 && \
 #     python3.9 -m pip install matlabengine
-###################################################################################################
-
-
-###################################################################################################
-# PATH mess
-# RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/python3.9
-# RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-# RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/matlab/R2023a/bin
-# RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/matlab/R2023a/bin/glnxa64
 ###################################################################################################
 
 

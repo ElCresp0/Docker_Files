@@ -1,17 +1,30 @@
 # SETUP
+```
 $ docker build -t my-matlab-container .
+```
 save a matlab license file in the directory of the dockerfile
-^ to generate the license, a MAC address of the image is going to be needed, run the image in order to obtain it
+
+^ to generate the license, a MAC address of the container is going to be needed, run the container in order to obtain it.
+
+The -rm parameter below tells docker to delete the container immediately after stopping it,
+
+the -it parameter instructs docker to run a container in an interactive mode
+```
 $ docker run -it --rm -e MLM_LICENSE_FILE=license.lic --shm-size=512M my-matlab-container
+```
+And once the container is running, run
+```
 my-matlab-container $ python3.9 test.py
+```
+to test whether the matlab and python work correctly.
 
 # RESULTS
-    a docker image with:
-    - matlab engine
-    - specified python version
+a docker image with:
+- matlab engine
+- specified python version
 
-# HERE INSERT DIFFERENCES BETWEEN: docker image, docker container, virtual machine
-mainly: several containers can run on a shared kernel; containers provide better automation and portability
+# why not simply venv
+While python virtual environments share some use cases with docker containers, the former are mainly a development tool, while the latter remain more portable and thus are used as means of development, testing and deployment.
 
 # SOURCES
 https://hub.docker.com/r/mathworks/matlab

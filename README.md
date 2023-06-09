@@ -3,6 +3,97 @@ Project for purposes of Advanced Computer Architectures course. It contains an o
 
 # Raport
 
+## Wstęp teoretyczny
+
+### Docker image, docker container - rozróżnienie
+
+Obraz (docker image) można traktować jako statyczny szablon, za pomocą którego tworzy się kontenery. Kontener stanowi działające środowisko do uruchamiania aplikacji.
+- Można utworzyć kilka kontenerów z jednego obrazu
+- Można tworzyć nowe obrazy z obrazów bazowych (koncepcja warstw)
+- Kontener jest:
+    - izolowany - od systemu hosta i pozostałych procesów (system plików, sieć, zasoby systemowe, przestrzenie nazw)
+    Kontenery mogą jednak współdzielić kernel (dzięki czemu są lżejsze ale mniej izolowane)
+    - przenośny - zdatny do uruchomienia na dowolnym urządzeniu obsługującym dockera, z gwarancją identycznego wewnętrznego środowiska w każdej fazie cyklu życia oprogramowania
+    - wirtualny - stanowi wirtualny system operacyjny
+
+### Docker container, maszyna wirtualna - rozróżnienie
+
+Kontenery, podobnie jak maszyny wirtualne zapewniają wirtualny system operacyjny, w którym można uruchamiać aplikacje. Główną zaletą kontenerów jest ich lekkość wynikająca z możliwości współdzielenia kernela systemu operacyjnego.
+- Wirtualizacja maszyn wirtualnych ma miejsce na poziomie hardware, co wymaga większej ilości zasobów w stosunku do kontenerów
+- Wirtualizacja kontenerów zachodzi na poziomie aplikacji, dzięki czemu są znacznie lżejsze (współdzielenie zasobów, izolacja procesów)
+- Kontenery dzięki wymienionym cechom są wydajnym narzędziem w kontekście cyklu wytwarzania aplikacji (wytwarzanie, testowanie, wdrażanie), ponieważ zapewniają identyczne środowisko uruchomieniowe na każdym z tych etapów
+    - Dzięki temu stały się popularnym narzędziem w procesach CI/CD
+
+## Wyciąg z dokumentacji - opis wybranych elementów
+
+### Dockerfile
+
+Plik Dockerfile stanowi opis obrazu Dockera, który można utworzyć komendą:
+```
+$ docker build (utworzenie obrazu)
+```
+lub
+```
+$ docker run (utworzenie obrazu i uruchomienie kontenera)
+```
+Elementy Dockerfile wykorzystane w prezentowanym przykładzie:
+- FROM [obraz bazowy]
+    - Definiuje wykorzystywany obraz bazowy
+- RUN [komenda shellowa]
+    - tworzy nową warstwę obrazu dockera, która powstaje po wykonaniu komendy; warstwy są cache'owane, co przyspiesza proces tworzenia nowych obrazów
+- COPY [plik_kopiowany plik_docelowy]
+    - kopiuje pliki z systemu hosta do obrazu
+- CMD [komenda]
+    - opisuje komendę lub punkt wejściowy (może zastępować element ENTRYPOINT lub mu towarzyszyć) kontenera, definiuje jego zachowanie przy uruchomieniu
+
+### docker-compose.yml
+
+Plik opisujący wiele obrazów dockera (serwisy), które tworzą logicznie jedną aplikację. W prezentowanym przykładzie są to serwisy php, apache oraz bazy danych potrzebne do uruchomienia aplikacji projektowej z przedmiotu Wytwarzanie Aplikacji Internetowych.
+Plik ten wykorzystywany jest jako wejście narzędzia docker compose, które uruchamia się komendami podobnymi do standardowego tworzenia kontenerów:
+```
+$ docker compose build (tworzy obrazy Dockera)
+```
+```
+$ docker compose up (tworzy i uruchamia kontenery)
+```
+```
+$ docker compose start (uruchamia wcześniej utworzone kontenery)
+```
+```
+$ docker compose stop (zatrzymuje kontenery)
+```
+```
+$ docker compose down (usuwa kontenery i obrazy)
+```
+Wykorzystane elementy pliku .yml:
+- services
+    - zawiera listę serwisów (opisów obrazów Dockera) współtworzących aplikację
+- build
+    - opcjonalny, przekazuje ścieżkę do pliku Dockerfile
+- image
+    - specyfikuje obraz bazowy
+- links
+    - wskazuje na powiązania pomiędzy docelowymi kontenerami (np. php z bazą danych)
+- environment
+    - ustawia zmienne środowiskowe w obrazie (np. login i hasło do serwisu bazy danych)
+- ports
+    - opsiuje porty komunikacji przypisane docelowemu kontenerowi
+- volumes
+    - mapuje foldery między systemem hosta i kontenerem
+- working_dir
+    - definiuje miejsce w systemie plików, w którym uruchomiony zostanie kontener
+
+## Przykład Dockerfile
+
+W ramach prostego przykładu Dockerfile przygotowano skonteneryzowaną wersję projektu z przedmiotu Metody Numeryczne wykorzystującego język Python z dołączonym Matlabem. W tym celu utworzono obraz z obrazu bazowego dostarczonego przez Matlab, oraz zainstalowano na nim Pythona w wybranej wersji. Wykorzystanie dockera rozwiązuje w tym przypadku komplikacje wynikające z instalowania i wykorzystywania kilku wersji Pythona na systemie hosta.
+Dalszy opis przykładu, jak również instrukcje jego uruchomienia można znaleźć w pliku README w katalogu python2_MN/
+
+Uwaga: aby poprawnie uruchomić program test.py w kontenerze, należy uprzednio wygenerować licencję na stronie Matlaba dedykowaną na ten kontener (przy generowaniu podaje się MAC).
+
+## Przykład docker compose
+
+Z wykorzystaniem narzędzia docker compose znacznie przyspieszono proces przygotowywania środowiska uruchomieniowego pod projekt z przedmiotu Wytwarzanie Aplikacji Internetowych. Dla nadmiarowości oprócz mongodb dodano również serwisy z MySQL oraz phpmyadmin, które również są popularnymi narzędziami w aplikacjach internetowych. Podobnie jak w przypadku przykładu Dockerfile, dalszy opis oraz instrukcje uruchomienia zawarte są w dedykowanym pliku README w katalogu php_apache_db/
+
 ## Jak się chronić - dobre praktyki bezpieczeństwa w dockerze:
 
 1.Minimalizacja obrazów Docker: Im mniej pakietów i usług w kontenerze, tym mniej potencjalnych wejść dla atakującego. Stwórz kontenery tylko z tym, co naprawdę jest potrzebne dla twojej aplikacji.
